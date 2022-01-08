@@ -1,0 +1,54 @@
+{
+    "language": [
+        "cs-CZ",
+        "de-DE",
+        "en-GB",
+        "en-GB",
+        "en-US",
+        "es-ES",
+        "fr-FR",
+        "it-IT",
+        "pt-BR",
+        "ru-RU",
+        "zh-CN"
+    ],
+    "name": [
+        "Czech Female",
+        "German Female",
+        "English Female",
+        "English Male",
+        "English Female",
+        "Spanish; Castilian Female",
+        "French Female",
+        "Italian Female",
+        "Portuguese Female",
+        "Russian Female",
+        "Chinese Female"
+    ],
+    "description": [
+        "Czech Female Voice (cs-CZ-Vlasta)",
+        "German Female Voice (de-DE-Katja)",
+        "English Female Voice (en-GB-Libby)",
+        "English Male Voice (en-GB-Ryan)",
+        "English Female Voice (en-US-Emily)",
+        "Spanish; Castilian Female Voice (es-ES-Elvira)",
+        "French Female Voice (fr-FR-Denise)",
+        "Italian Female Voice (it-IT-Elsa)",
+        "Portuguese Female Voice (pt-BR-Francisca)",
+        "Russian Female Voice (ru-RU-Svetlana)",
+        "Chinese Female Voice (zh-CN)"
+    ],
+    "directory": [
+        "cs-CZ-Vlasta",
+        "de-DE-Katja",
+        "en-GB-Libby",
+        "en-GB-Ryan",
+        "en-US-Emily",
+        "es-ES-Elvira",
+        "fr-FR-Denise",
+        "it-IT-Elsa",
+        "pt-BR-Francisca",
+        "ru-RU-Svetlana",
+        "zh-CN"
+    ]
+}
