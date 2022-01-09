@@ -10,6 +10,32 @@ import csv
 from gtts import gTTS
 import subprocess
 import glob
+import time
+
+accent_map = [
+    ('US', 'com'),
+    ('CN', 'any'),
+    ('RU', 'ru'),
+    ('BR', 'com.br'),
+    ('IT', 'it'),
+    ('FR', 'fr'),
+    ('ES', 'es'),
+    ('GB', 'co.uk'),
+    ('DE', 'de'),
+    ('CZ', 'cz')
+]
+
+language_map = [
+    ('zh', 'zh-CN'),
+    ('ru', 'ru'),
+    ('pt', 'pt'),
+    ('it', 'it'),
+    ('fr', 'fr'),
+    ('es', 'es'),
+    ('en', 'en'),
+    ('de', 'de'),
+    ('cs', 'cs')
+]
 
 
 def create_sound(filename, text, language, accent):
@@ -21,9 +47,35 @@ def create_sound(filename, text, language, accent):
     subprocess.run(cmd, shell=True)  # Run ffmpeg command.
     os.remove(filename + ".mp3")  # Delete MP3 file.
 
+def process_csv():
+    with open(filenames_voices[x]) as csv_file:  # Open csv file.
+        csv_read = list(csv.reader(csv_file, delimiter=';'))  # import csv file and create list of csv lines
+        language_from_csv = csv_read[0][3]
+        accent_from_csv = csv_read[0][4]
+        google_lang = ""
+        google_accent = ""
+        for y in range(len(language_map)):
+            if language_from_csv == language_map[y][0]:  # Match the language to google code
+                google_lang = language_map[y][1]
+                print("google lang " + google_lang)
+        for y in range(len(accent_map)):
+            if accent_from_csv == accent_map[y][0]:  # Match the accent to google code
+                google_accent = accent_map[y][1]
+                print("google acce " + google_accent)
+        for row in range(len(csv_read)):  # replace 5 with row         # Loop through all lines of the csv file.
+            if os.path.isdir(fullpath + "/" + csv_read[row][0]):  # Check if folder is already existing, if not
+                # create folder.
+                print("Folder existing, nothing to do here.")
+            else:
+                print("Create output folder.")
+                os.makedirs(fullpath + "/" + csv_read[row][0])
+            fullfilename = fullpath + "/" + csv_read[row][0] + "/" + csv_read[row][1]
+            create_sound(fullfilename, csv_read[row][2], google_lang, google_accent)
+            time.sleep(10)
 
 # Get the current working directory
 cwd = os.getcwd()
+process = 0
 
 # Print the current working directory
 print("Current working directory: {0}".format(cwd))
@@ -56,30 +108,23 @@ if click.confirm('Do you want to process all files?', default=True):    # User I
     print('Do  all files')
     for x in range(len(filenames_voices)):
         print(filenames_voices[x])
+        process = 1
+        process_csv()
+
 else:
     for x in range(len(filenames_voices)):
         if click.confirm("Do you want to process " + filenames_voices[x] + "?", default=True):  # User Interaction
                                                                             # if specifiv files should be processed.
-            # print('Generating language files')
-            # print("fullpath " + fullpath)
-            # currentfile = fullpath + "/voices/" + filenames_voices[x]   # current csv file which is proccessed.
-            # print("filename_voices " + filenames_voices[x])
-            # print("current file " + currentfile)
-            with open(filenames_voices[x]) as csv_file:   # Open csv file.
-                csv_read = list(csv.reader(csv_file, delimiter=';'))  # import csv file and create list of csv lines
-                if os.path.isdir(fullpath + "/" + csv_read[row][0]):  # Check if folder is already existing, if not
-                    # create folder.
-                    print("Folder existing, nothing to do here.")
-                else:
-                    print("Create output folder.")
-                    os.makedirs(fullpath + "/" + csv_read[row][0])
-                for row in range(len(csv_read)):   # replace 5 with row         # Loop through all lines of the csv file.
-                    fullfilename = fullpath + "/" + csv_read[row][0] + "/" + csv_read[row][1]
-                    create_sound(fullfilename, csv_read[row][2], "en", "com")
+            process = 1
+            process_csv()
 
-# Create zipfile for all languages
-print("Please type in the current version:")
-version = input()
-output_filename = fullpath + "/edgetx-sdcard-sounds-" + version
-shutil.make_archive(output_filename, 'zip', fullpath + "/SOUNDS")
+
+if process == 1:
+    # Create zipfile for all languages
+    print("Creating the ZIP file.")
+    print("Please type in the current version:")
+    version = input()
+    output_filename = fullpath + "/edgetx-sdcard-sounds-" + version
+    shutil.make_archive(output_filename, 'zip', fullpath + "/SOUNDS")
+
 print("Done")
