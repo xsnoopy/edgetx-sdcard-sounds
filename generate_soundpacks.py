@@ -7,10 +7,11 @@ import shutil
 import git
 import click
 import csv
+import time
+import gtts.lang
 from gtts import gTTS
 import subprocess
 import glob
-import time
 
 accent_map = [
     ('US', 'com'),
@@ -70,8 +71,9 @@ def process_csv():
                 print("Create output folder.")
                 os.makedirs(fullpath + "/" + csv_read[row][0])
             fullfilename = fullpath + "/" + csv_read[row][0] + "/" + csv_read[row][1]
-            create_sound(fullfilename, csv_read[row][2], google_lang, google_accent)
-            time.sleep(10)
+            if not os.path.isfile(fullfilename):
+                create_sound(fullfilename, csv_read[row][2], google_lang, google_accent)
+                time.sleep(1)
 
 # Get the current working directory
 cwd = os.getcwd()
