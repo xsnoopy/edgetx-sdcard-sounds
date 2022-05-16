@@ -4,6 +4,8 @@ This is a new workflow to create EdgeTX (and untested OpenTX) Soundpackages and 
 
 You can use the Custom Sound Generator to create your own soundfiles with the same voice.
 
+In order to use the program under Windows you need to have FFmpeg https://www.ffmpeg.org/download.html in the same folder as you run the program. Under Linux FFmpeg has to be installed and in path.  
+
 In order to create a complete language Pack you can submit a new CSV File as a pull request to this repository. Please follow the following standard for creating the CSV.
 
  
